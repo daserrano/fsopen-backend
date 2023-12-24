@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let contacts = [
     {
         id: 1,
@@ -54,6 +56,24 @@ app.delete('/api/persons/:id', (request, response) => {
     contacts = contacts.filter(person => person.id !== id)
 
     response.status(204).end()
+
+})
+
+app.post('/api/persons', (request, response) => {
+    console.log("BOOODY: ", request)
+    const {name, number} = request.body
+
+    if (!name || !number) {
+        return response.status(400).json({error:"missing property"})
+    }
+    const contact = {
+        id: Math.random(),
+        name: name,
+        number: number
+    }
+    
+    contacts.push(contact)
+    response.json(contact)
 
 })
 
