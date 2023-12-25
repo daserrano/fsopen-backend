@@ -66,6 +66,7 @@ app.post('/api/persons', (request, response) => {
     if (!name || !number) {
         return response.status(400).json({error:"missing property"})
     }
+    if(contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase())) return response.status(400).json({error: "name must be unique!"})
     const contact = {
         id: Math.random(),
         name: name,
